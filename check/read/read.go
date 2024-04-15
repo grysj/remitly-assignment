@@ -1,4 +1,4 @@
-package readJson
+package read
 
 import (
 	"encoding/json"

@@ -1,9 +1,10 @@
-package checkJson
+package check
 
 import (
 	"fmt"
-	parsejson "parseJson"
-	readjson "readJson"
+
+	parsejson "github.com/grysj/remitly-assignment/check/parse"
+	readjson "github.com/grysj/remitly-assignment/check/read"
 )
 
 func Check(filepath string) (bool, error) {
