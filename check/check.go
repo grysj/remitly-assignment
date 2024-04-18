@@ -1,10 +1,10 @@
-package main
+package check
 
 import (
 	"fmt"
 
-	parse "github.com/grysj/remitly-assignment/check/parse"
-	read "github.com/grysj/remitly-assignment/check/read"
+	parse "github.com/grysj/remitly-assignment/parse"
+	read "github.com/grysj/remitly-assignment/read"
 )
 
 func Check(value interface{}) (bool, error) {

@@ -1,11 +1,10 @@
-package main
+package parse
 
 import (
 	"fmt"
 	"testing"
 
-	parse "github.com/grysj/remitly-assignment/check/parse"
-	read "github.com/grysj/remitly-assignment/check/read"
+	read "github.com/grysj/remitly-assignment/read"
 )
 
 func equalMaps(map1 map[string]bool, map2 map[string]bool) bool {
@@ -33,7 +32,7 @@ func TestCorrectParse1(t *testing.T) {
 
 	want := map[string]bool{"*": true}
 
-	got, err := parse.GetResourseList(jn)
+	got, err := GetResourseList(jn)
 
 	if err != nil {
 		t.Errorf("got %s, want nil", err.Error())
@@ -52,7 +51,7 @@ func TestCorrectParse2(t *testing.T) {
 	want := map[string]bool{"*": true, "arn:aws:s3:::confidential-data": true,
 		"arn:aws:s3:::confidential-data/*": true}
 
-	got, err := parse.GetResourseList(jn)
+	got, err := GetResourseList(jn)
 
 	if err != nil {
 		t.Fail()
@@ -71,7 +70,7 @@ func TestCorrectParse3(t *testing.T) {
 
 	want := map[string]bool{"*": true, "arn:aws:s3:::confidential-data": true}
 
-	got, err := parse.GetResourseList(jn)
+	got, err := GetResourseList(jn)
 
 	if err != nil {
 		t.Fail()
@@ -88,7 +87,7 @@ func TestNoPolicyDoc(t *testing.T) {
 
 	jn, _ := read.ReadFile("testParse/noPolicyDocument.json")
 
-	_, err := parse.GetResourseList(jn)
+	_, err := GetResourseList(jn)
 
 	if err.Error() != "PolicyDocument not in json" {
 		t.Fail()
@@ -100,7 +99,7 @@ func TestNoStatement(t *testing.T) {
 
 	jn, _ := read.ReadFile("testParse/noStatement.json")
 
-	_, err := parse.GetResourseList(jn)
+	_, err := GetResourseList(jn)
 	if err.Error() != "Statement not in json" {
 		t.Fail()
 	}
@@ -111,7 +110,7 @@ func TestNoResource1(t *testing.T) {
 
 	jn, _ := read.ReadFile("testParse/noResource1.json")
 
-	_, err := parse.GetResourseList(jn)
+	_, err := GetResourseList(jn)
 
 	if err.Error() != "Resource not in json" {
 		t.Fail()
@@ -123,7 +122,7 @@ func TestNoResource2(t *testing.T) {
 
 	jn, _ := read.ReadFile("testParse/noResource2.json")
 
-	_, err := parse.GetResourseList(jn)
+	_, err := GetResourseList(jn)
 
 	if err.Error() != "Resource not in json" {
 		t.Fail()
