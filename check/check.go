@@ -1,4 +1,4 @@
-package check
+package main
 
 import (
 	"fmt"
@@ -7,11 +7,24 @@ import (
 	readjson "github.com/grysj/remitly-assignment/check/read"
 )
 
-func Check(filepath string) (bool, error) {
+func Check(value interface{}) (bool, error) {
+	var data map[string]interface{}
+	var err error
 
-	data, err := readjson.Read(filepath)
-	if err != nil {
-		return false, err
+	switch v := value.(type) {
+	case string:
+		data, err = readjson.ReadFile(v)
+		if err != nil {
+			return false, err
+		}
+	case []byte:
+		data, err = readjson.ReadByte(v)
+		if err != nil {
+			return false, err
+		}
+
+	default:
+		return false, fmt.Errorf("invalid type of value")
 	}
 
 	res, err := parsejson.GetResourseList(data)
@@ -19,24 +32,7 @@ func Check(filepath string) (bool, error) {
 		return false, err
 	}
 
-	for _, item := range res {
-		switch toCheck := item.(type) {
-		case string:
-			if toCheck == "*" {
-				return false, nil
-			}
-		default:
-			continue
-		}
+	_, ok := res["*"]
 
-	}
-
-	return true, nil
-
-}
-
-func main() {
-
-	fmt.Println("hello!")
-
+	return !ok, nil
 }

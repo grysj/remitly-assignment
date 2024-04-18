@@ -2,7 +2,7 @@ package parse
 
 import "fmt"
 
-func GetResourseList(role_policy map[string]interface{}) ([]interface{}, error) {
+func GetResourseList(role_policy map[string]interface{}) (map[string]bool, error) {
 
 	policyMandatory := [2]string{"PolicyName", "PolicyDocument"}
 
@@ -10,7 +10,7 @@ func GetResourseList(role_policy map[string]interface{}) ([]interface{}, error) 
 
 	statementMandatory := [3]string{"Effect", "Action", "Resource"}
 
-	resourceList := []interface{}{}
+	resourceList := map[string]bool{}
 
 	_, err := checkForMandatory(role_policy, policyMandatory[:])
 	if err != nil {
@@ -27,12 +27,29 @@ func GetResourseList(role_policy map[string]interface{}) ([]interface{}, error) 
 	stats, _ := polDoc["Statement"].([]interface{})
 	for _, item := range stats {
 		to_check, _ := item.(map[string]interface{})
-
 		_, err = checkForMandatory(to_check, statementMandatory[:])
 		if err != nil {
 			return resourceList, err
 		}
-		resourceList = append(resourceList, to_check["Resource"])
+
+		to_add := to_check["Resource"]
+		switch to_add := to_add.(type) {
+		case string:
+			resourceList[to_add] = true
+		case []interface{}:
+			for _, toAddFromT := range to_add {
+				switch v := toAddFromT.(type) {
+				case string:
+					resourceList[v] = true
+				default:
+					return resourceList, fmt.Errorf(`incompatible type in "Resource"`)
+				}
+
+			}
+		default:
+			return resourceList, fmt.Errorf(`incompatible format of "Resource"`)
+		}
+
 	}
 
 	return resourceList, nil
