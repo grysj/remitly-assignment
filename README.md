@@ -20,7 +20,7 @@ Implemented method `Check` from subpackage `check` takes param of type `interfac
 res, err := check.Check(param)
 ```
 In case of parameter of type `[]byte` method `Check` interprets parameter value as JSON. Type `string` however interprets parameter value as `filePath` to JSON.
-If a parameter `param` has a resource field containing "*" it will return `false`.s
+If a parameter `param` has a resource field containing "*" it will return `false` (`true` in any other case assuming JSON is correct)
 
 ## Tests
 To run tets, type in console:
