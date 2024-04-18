@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	parsejson "github.com/grysj/remitly-assignment/check/parse"
-	readjson "github.com/grysj/remitly-assignment/check/read"
+	parsejson "github.com/grysj/check/parse"
+	readjson "github.com/grysj/check/read"
 )
 
 func Check(value interface{}) (bool, error) {

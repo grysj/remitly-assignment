@@ -1,3 +1,3 @@
-module "github.com/grysj/remitly-assignment/check"
+module "github.com/grysj/check"
 
 go 1.21.8

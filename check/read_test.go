@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	readjson "github.com/grysj/remitly-assignment/check/read"
+	readjson "github.com/grysj/check/read"
 )
 
 func TestIncorrectJSON1(t *testing.T) {
