@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	read "github.com/grysj/remitly-assignment/read"
+	read "github.com/grysj/remitly-assignment/remitly-assignment/read"
 )
 
 func equalMaps(map1 map[string]bool, map2 map[string]bool) bool {
