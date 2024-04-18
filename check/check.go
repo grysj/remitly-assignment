@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	parsejson "github.com/grysj/check/parse"
-	readjson "github.com/grysj/check/read"
+	parse "github.com/grysj/remitly-assignment/check/parse"
+	read "github.com/grysj/remitly-assignment/check/read"
 )
 
 func Check(value interface{}) (bool, error) {
@@ -13,12 +13,12 @@ func Check(value interface{}) (bool, error) {
 
 	switch v := value.(type) {
 	case string:
-		data, err = readjson.ReadFile(v)
+		data, err = read.ReadFile(v)
 		if err != nil {
 			return false, err
 		}
 	case []byte:
-		data, err = readjson.ReadByte(v)
+		data, err = read.ReadByte(v)
 		if err != nil {
 			return false, err
 		}
@@ -27,7 +27,7 @@ func Check(value interface{}) (bool, error) {
 		return false, fmt.Errorf("invalid type of value")
 	}
 
-	res, err := parsejson.GetResourseList(data)
+	res, err := parse.GetResourseList(data)
 	if err != nil {
 		return false, err
 	}
